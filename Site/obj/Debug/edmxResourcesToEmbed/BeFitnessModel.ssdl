@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="BeFitnessBRModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Cliente">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nome" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Sobrenome" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Email" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="Telefone" Type="nvarchar" MaxLength="20" />
+    <Property Name="Celular" Type="nvarchar" MaxLength="50" />
+    <Property Name="Sexo" Type="nvarchar" MaxLength="50" />
+    <Property Name="Nascimento" Type="datetime" />
+    <Property Name="Senha" Type="nvarchar" MaxLength="16" Nullable="false" />
+    <Property Name="CPF" Type="nvarchar" MaxLength="14" />
+  </EntityType>
+  <EntityType Name="ClienteEndereco">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="idCliente" Type="int" Nullable="false" />
+    <Property Name="TipoEndereco" Type="nvarchar" MaxLength="50" />
+    <Property Name="Logradouro" Type="nvarchar" MaxLength="500" />
+    <Property Name="Complemento" Type="nvarchar" MaxLength="200" />
+    <Property Name="Bairro" Type="nvarchar" MaxLength="200" />
+    <Property Name="CIdade" Type="nvarchar" MaxLength="100" />
+    <Property Name="Estado" Type="nvarchar" MaxLength="50" />
+    <Property Name="Pais" Type="nvarchar" MaxLength="50" />
+    <Property Name="CEP" Type="nvarchar" MaxLength="9" />
+  </EntityType>
+  <EntityType Name="Login">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DataAcesso" Type="datetime" />
+    <Property Name="Email" Type="nvarchar" MaxLength="50" />
+    <Property Name="Concluido" Type="bit" />
+    <Property Name="IP" Type="nvarchar" MaxLength="50" />
+    <Property Name="HostName" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Preco">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="idProduto" Type="int" Nullable="false" />
+    <Property Name="Preco" Type="decimal" Precision="16" Scale="2" />
+    <Property Name="DataVigencia" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Produto">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DescrCurta" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="DescrDetalhada" Type="nvarchar" MaxLength="500" Nullable="false" />
+    <Property Name="Informacoes" Type="nvarchar" MaxLength="500" />
+  </EntityType>
+  <Association Name="FK_ClienteEndereco_Cliente">
+    <End Role="Cliente" Type="Self.Cliente" Multiplicity="1" />
+    <End Role="ClienteEndereco" Type="Self.ClienteEndereco" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cliente">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="ClienteEndereco">
+        <PropertyRef Name="idCliente" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Preco_Produto">
+    <End Role="Produto" Type="Self.Produto" Multiplicity="1" />
+    <End Role="Preco" Type="Self.Preco" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Produto">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Preco">
+        <PropertyRef Name="idProduto" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="BeFitnessBRModelStoreContainer">
+    <EntitySet Name="Cliente" EntityType="Self.Cliente" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ClienteEndereco" EntityType="Self.ClienteEndereco" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Login" EntityType="Self.Login" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Preco" EntityType="Self.Preco" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Produto" EntityType="Self.Produto" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_ClienteEndereco_Cliente" Association="Self.FK_ClienteEndereco_Cliente">
+      <End Role="Cliente" EntitySet="Cliente" />
+      <End Role="ClienteEndereco" EntitySet="ClienteEndereco" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Preco_Produto" Association="Self.FK_Preco_Produto">
+      <End Role="Produto" EntitySet="Produto" />
+      <End Role="Preco" EntitySet="Preco" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
